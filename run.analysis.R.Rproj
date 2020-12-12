@@ -56,9 +56,9 @@ setAllInOne <- rbind(mrg_train, mrg_test)
 #dim(setAllInOne)
 #[1] 10299   563
 
-#
+
 #Step 2.-Extracts only the measurements on the mean and standard deviation for each measurement.
-#
+
 
 #2.1 Reading column names:
 
@@ -76,29 +76,27 @@ mean_and_std <- (grepl("activityId" , colNames) |
 
 setForMeanAndStd <- setAllInOne[ , mean_and_std == TRUE]
 
-#
+
 #Step 3. Uses descriptive activity names to name the activities in the data set
-#
+
 
 setWithActivityNames <- merge(setForMeanAndStd, activityLabels,
                               by='activityId',
                               all.x=TRUE)
 
-#
+
 #Step 4. Appropriately labels the data set with descriptive variable names.
-#
 
-#Done in previous steps, see 1.3,2.2 and 2.3!
 
-#
+
 #Step 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-#
+
 
 # Making a second tidy data set
 
-secTidySet <- aggregate(. ~subjectId + activityId, setWithActivityNames, mean)
-secTidySet <- secTidySet[order(secTidySet$subjectId, secTidySet$activityId),]
+cleanData <- aggregate(. ~subjectId + activityId, setWithActivityNames, mean)
+cleanData <- cleanData[order(cleanData$subjectId, cleanData$activityId),]
 
-#txt file
 
-write.table(secTidySet, "secTidySet.txt", row.name=FALSE)
+
+write.table(cleanData, "cleanData.txt", row.name=FALSE)
